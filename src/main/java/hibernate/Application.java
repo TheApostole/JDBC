@@ -1,6 +1,7 @@
-import model.City;
-import model.Employee;
-import service.EmployeeDAOImpl;
+package hibernate;
+
+import hibernate.model.Employee;
+import hibernate.service.EmployeeDAOImpl;
 
 import java.sql.*;
 
@@ -34,13 +35,13 @@ public class Application {
             e.printStackTrace();
         }
         System.out.println("=========+++++++++=========");
-        EmployeeDAOImpl employeeDAO = new EmployeeDAOImpl();
-        employeeDAO.createEmployee(new Employee(1, "Александр", "Полочкин", "м", 46, new City(2, "")));
-        employeeDAO.updateEmployee(5, new Employee(5, "Санёк", "Олеханов", "м", 28, new City(1, "")));
-        employeeDAO.deleteEmployee(1);
-        employeeDAO.getAllEmployees();
-        System.out.println("=========+++++++++=========");
-        employeeDAO.getEmployeeById(4);
+       EmployeeDAOImpl employeeDAO = new EmployeeDAOImpl();
+       employeeDAO.createEmployee(new Employee(1, "Александр", "Полочкин", "м", 46, 1));
+       employeeDAO.updateEmployee(new Employee(4, "Пенёк", "Олеханов", "м", 26, 1), 4);
+       employeeDAO.deleteEmployee(new Employee(16, "Александр", "Полочкин", "м", 46, 2));
+       employeeDAO.getAllEmployees().forEach(System.out::println);
+       System.out.println("=========+++++++++=========");
+       employeeDAO.getEmployeeById(4);
 
 
     }
