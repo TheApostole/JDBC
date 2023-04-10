@@ -1,10 +1,16 @@
 package hibernate;
 
+import hibernate.model.City;
 import hibernate.model.Employee;
+import hibernate.service.CityDaoImpl;
+import hibernate.service.CityDao;
 import hibernate.service.EmployeeDAOImpl;
+import hibernate.service.EmployeeDAO;
 
+import javax.transaction.Transactional;
 import java.sql.*;
-
+import java.util.List;
+@Transactional
 public class Application {
     public static void main(String[] args) throws SQLException {
         final String user = "postgres";
@@ -35,13 +41,25 @@ public class Application {
             e.printStackTrace();
         }
         System.out.println("=========+++++++++=========");
-       EmployeeDAOImpl employeeDAO = new EmployeeDAOImpl();
-       employeeDAO.createEmployee(new Employee(1, "Александр", "Полочкин", "м", 46, 1));
-       employeeDAO.updateEmployee(new Employee(4, "Пенёк", "Олеханов", "м", 26, 1), 4);
-       employeeDAO.deleteEmployee(new Employee(16, "Александр", "Полочкин", "м", 46, 2));
-       employeeDAO.getAllEmployees().forEach(System.out::println);
+        CityDao cityDao = new CityDaoImpl();
+        EmployeeDAO employeeDAO = new EmployeeDAOImpl();
+//        employeeDAO.createEmployee(new Employee(1, "Александр", "Полочкин", "м", 46, City.builder().city_name("Владимир").employees(List.of()).build()));
+//        employeeDAO.updateEmployee(new Employee(4, "Пенёк", "Олеханов", "м", 26, new City(1, "Владивосток", List.of()) ), 4);
+//        employeeDAO.deleteEmployee(new Employee(18, "Александр", "Полочкин", "м", 46, new City(1, "Владивосток", List.of())));
+//        employeeDAO.getAllEmployees();
        System.out.println("=========+++++++++=========");
-       employeeDAO.getEmployeeById(4);
+//       employeeDAO.getEmployeeById(4);
+        City city = new City(6, "Владивосток", List.of());
+        cityDao.create(city);
+        Employee employee1 = Employee.builder().first_name("Генрих").last_name("Форд").gender("м").city(city).age(45).build();
+        Employee employee2 = Employee.builder().first_name("Томас").last_name("Шелби").gender("м").city(city).age(50).build();
+        city.setEmployees(List.of(employee1, employee2));
+        cityDao.updateCity(new City(12, "Мексика", List.of()));
+        cityDao.deletedCity(new City(13, "Мексика", List.of()));
+        cityDao.getAllCities();
+        System.out.println("=========+++++++++=========");
+        cityDao.getCityById(5);
+        System.out.println(cityDao.getAllCities());
 
 
     }

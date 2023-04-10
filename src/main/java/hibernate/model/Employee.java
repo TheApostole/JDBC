@@ -1,8 +1,11 @@
 package hibernate.model;
 
-import javax.persistence.*;
-import java.util.Objects;
+import lombok.Builder;
 
+import javax.persistence.*;
+import java.util.List;
+import java.util.Objects;
+@Builder
 @Entity
 @Table(name = "employee")
 
@@ -19,8 +22,9 @@ public class Employee {
     private String gender;
     @Column(name = "age")
     private int age;
-    @Column(name = "city_id")
-    private int city;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "city_id")
+    private City city;
 
     /**
     * Геттеры
@@ -46,9 +50,11 @@ public class Employee {
         return age;
     }
 
-    public int getCity() {
-        return city;
+    public City getCity() {
+        return (City) city;
     }
+
+
 
     /**
      * Сеттеры
@@ -74,7 +80,7 @@ public class Employee {
         this.age = age;
     }
 
-    public void setCity(int city) {
+    public void setCity(City city) {
         this.city = city;
     }
 
@@ -84,7 +90,7 @@ public class Employee {
      * Конструктор
      */
 
-    public Employee(int id, String first_name, String last_name, String gender, int age, int city) {
+    public Employee(int id, String first_name, String last_name, String gender, int age, City city) {
         this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -104,7 +110,7 @@ public class Employee {
     public String toString() {
         return "id: " + getId() + "  Имя: " + getFirst_name() + "  Фамилия: "
                 + getLast_name() + "  Пол: " + getGender() + "  Возраст: " + getAge()
-                + "  Город проживания: " + getCity();
+                + "  Город проживания: " + city.toString();
     }
 
     @Override
