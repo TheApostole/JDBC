@@ -1,59 +1,53 @@
 package hibernate.service;
 
 import hibernate.HibernateSessionFactoryUtil;
+import hibernate.model.City;
+import hibernate.model.Employee;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import hibernate.model.Employee;
 
 import java.util.List;
 
-public class EmployeeDAOImpl implements EmployeeDAO {
+public class CityDaoImpl implements CityDao{
 
-    public Integer createEmployee(Employee employee) {
-
-        Integer id;
+    public City create(City city) {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
-            id = (Integer) session.save(employee);
             transaction.commit();
         }
-        System.out.println(employee);
-        return id;
+        System.out.println(city);
+        return city;
     }
 
-    public Employee getEmployeeById(int idEmployee) {
-
+    public City getCityById(int idCity) {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
-            System.out.println(session.get(Employee.class, idEmployee));
-            return session.get(Employee.class, idEmployee);
+            System.out.println(session.get(Employee.class, idCity));
+            return session.get(City.class, idCity);
         }
     }
 
-    public List getAllEmployees() {
-
+    public List getAllCities() {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
-            return session.createQuery("FROM Employee").list();
+            return session.createQuery("FROM City").list();
         }
     }
 
-    public void updateEmployee(Employee employee, int id) {
-
+    public City updateCity(City city) {
+        City updated;
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
-            employee.setId(id);
-            session.update(employee);
-            transaction.commit();
-            System.out.println(employee);
+            updated = (City) session.merge(city);
         }
+        System.out.println(updated);
+        return updated;
     }
 
-    public void deleteEmployee(Employee employee) {
-
+    public void deletedCity(City city) {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
-            session.delete(employee);
+            session.delete(city);
             transaction.commit();
-            System.out.println(employee);
+            System.out.println(city);
         }
     }
 }
