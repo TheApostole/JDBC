@@ -10,6 +10,7 @@ import java.util.List;
 public class EmployeeDAOImpl implements EmployeeDAO {
 
     public Integer createEmployee(Employee employee) {
+
         Integer id;
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
@@ -21,6 +22,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     }
 
     public Employee getEmployeeById(int idEmployee) {
+
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             System.out.println(session.get(Employee.class, idEmployee));
             return session.get(Employee.class, idEmployee);
@@ -28,12 +30,14 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     }
 
     public List getAllEmployees() {
+
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             return session.createQuery("FROM Employee").list();
         }
     }
 
     public void updateEmployee(Employee employee, int id) {
+
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             employee.setId(id);
@@ -44,6 +48,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     }
 
     public void deleteEmployee(Employee employee) {
+
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             session.delete(employee);
